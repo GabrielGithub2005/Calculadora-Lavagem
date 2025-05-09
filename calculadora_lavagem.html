@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora de Lavagem</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f9;
+      padding: 40px;
+      color: #333;
+    }
+    .container {
+      background: #fff;
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      font-size: 22px;
+      margin-bottom: 20px;
+      color: #0077cc;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+    }
+    input[type="number"] {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    .output {
+      margin-top: 20px;
+      padding: 15px;
+      background: #e9f5ff;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Calculadora de Lavagem</h1>
+    <label for="valor">Valor a lavar (mínimo R$ 50.000):</label>
+    <input type="number" id="valor" placeholder="Digite o valor" oninput="calcular()">
+    <div class="output" id="resultado"></div>
+  </div>
+
+  <script>
+    function calcular() {
+      const valor = parseFloat(document.getElementById("valor").value);
+      const resultado = document.getElementById("resultado");
+      if (isNaN(valor) || valor < 50000) {
+        resultado.innerHTML = "<strong>Valor muito baixo. O mínimo é R$ 50.000.</strong>";
+        return;
+      }
+
+      const alvejantes = (valor / 50000) * 2;
+      const retencao = valor * 0.04;
+      const restante = valor - retencao;
+      const parceria = restante * 0.25;
+      const semParceria = restante * 0.30;
+      const lucroParceria = restante - parceria;
+      const lucroSemParceria = restante - semParceria;
+
+      resultado.innerHTML = `
+        <p><strong>Alvejantes necessários:</strong> ${alvejantes.toFixed(0)}</p>
+        <p><strong>Retenção da máquina (4%):</strong> R$ ${retencao.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
+        <p><strong>Valor restante:</strong> R$ ${restante.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
+        <p><strong>Devolver com parceria (25%):</strong> R$ ${parceria.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
+        <p><strong>Devolver sem parceria (30%):</strong> R$ ${semParceria.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
+        <p><strong>Lucro com parceria:</strong> R$ ${lucroParceria.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
+        <p><strong>Lucro sem parceria:</strong> R$ ${lucroSemParceria.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
+      `;
+    }
+  </script>
+</body>
+</html>
