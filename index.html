@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Calculadora de Lavagem</title>
   <style>
     body {
@@ -47,7 +47,7 @@
   <div class="container">
     <h1>Calculadora de Lavagem</h1>
     <label for="valor">Valor a lavar (mínimo R$ 50.000):</label>
-    <input type="number" id="valor" placeholder="Digite o valor" oninput="calcular()">
+    <input type="number" id="valor" placeholder="Digite o valor" oninput="calcular()" />
     <div class="output" id="resultado"></div>
   </div>
 
@@ -55,6 +55,7 @@
     function calcular() {
       const valor = parseFloat(document.getElementById("valor").value);
       const resultado = document.getElementById("resultado");
+
       if (isNaN(valor) || valor < 50000) {
         resultado.innerHTML = "<strong>Valor muito baixo. O mínimo é R$ 50.000.</strong>";
         return;
@@ -62,22 +63,30 @@
 
       const alvejantes = (valor / 50000) * 2;
       const retencao = valor * 0.04;
-      const restante = valor - retencao;
 
-      const lucroParceria = restante * 0.25; // facção ganha 25%
-      const lucroSemParceria = restante * 0.30; // facção ganha 30%
+      // COM PARCERIA
+      const clienteParceria = valor * 0.75;
+      const faccaoParceriaBruto = valor * 0.25;
+      const faccaoParceriaLiquido = faccaoParceriaBruto - retencao;
 
-      const devolverParceria = restante - lucroParceria; // cliente recebe 75%
-      const devolverSemParceria = restante - lucroSemParceria; // cliente recebe 70%
+      // SEM PARCERIA
+      const clienteSemParceria = valor * 0.70;
+      const faccaoSemParceriaBruto = valor * 0.30;
+      const faccaoSemParceriaLiquido = faccaoSemParceriaBruto - retencao;
 
       resultado.innerHTML = `
         <p><strong>Alvejantes necessários:</strong> ${alvejantes.toFixed(0)}</p>
         <p><strong>Retenção da máquina (4%):</strong> R$ ${retencao.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
-        <p><strong>Valor restante:</strong> R$ ${restante.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
-        <p><strong>Lucro da facção com parceria (25%):</strong> R$ ${lucroParceria.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
-        <p><strong>Lucro da facção sem parceria (30%):</strong> R$ ${lucroSemParceria.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
-        <p><strong>Devolver ao cliente com parceria (75%):</strong> R$ ${devolverParceria.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
-        <p><strong>Devolver ao cliente sem parceria (70%):</strong> R$ ${devolverSemParceria.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
+        <hr>
+        <p><strong>Com parceria (cliente 75%):</strong></p>
+        <p>• Cliente recebe: R$ ${clienteParceria.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
+        <p>• Facção (bruto): R$ ${faccaoParceriaBruto.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
+        <p>• Facção (líquido, após retenção): R$ ${faccaoParceriaLiquido.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
+        <hr>
+        <p><strong>Sem parceria (cliente 70%):</strong></p>
+        <p>• Cliente recebe: R$ ${clienteSemParceria.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
+        <p>• Facção (bruto): R$ ${faccaoSemParceriaBruto.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
+        <p>• Facção (líquido, após retenção): R$ ${faccaoSemParceriaLiquido.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
       `;
     }
   </script>
