@@ -1,45 +1,57 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Calculadora de Lavagem</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f4f6f9;
-      padding: 40px;
-      color: #333;
+      background: #0f172a;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
     }
+
     .container {
-      background: #fff;
-      max-width: 500px;
-      margin: 0 auto;
+      background: #1e293b;
       padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      width: 350px;
     }
+
     h1 {
-      font-size: 22px;
+      text-align: center;
       margin-bottom: 20px;
-      color: #0077cc;
     }
+
     label {
       display: block;
-      margin-top: 15px;
+      margin-bottom: 8px;
+      font-weight: bold;
     }
-    input[type="number"] {
+
+    input {
       width: 100%;
-      padding: 8px;
-      margin-top: 5px;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: none;
       border-radius: 8px;
-      border: 1px solid #ccc;
+      font-size: 16px;
     }
+
     .output {
-      margin-top: 20px;
+      background: #334155;
       padding: 15px;
-      background: #e9f5ff;
       border-radius: 10px;
+    }
+
+    .output p {
+      margin: 6px 0;
     }
   </style>
 </head>
@@ -47,7 +59,7 @@
   <div class="container">
     <h1>Calculadora de Lavagem</h1>
     <label for="valor">Valor a lavar (mínimo R$ 50.000):</label>
-    <input type="number" id="valor" placeholder="Digite o valor" oninput="calcular()" />
+    <input type="number" id="valor" placeholder="Digite o valor" oninput="calcular()">
     <div class="output" id="resultado"></div>
   </div>
 
@@ -61,32 +73,21 @@
         return;
       }
 
-      const alvejantes = (valor / 50000) * 2;
-      const retencao = valor * 0.04;
-
-      // COM PARCERIA
-      const clienteParceria = valor * 0.75;
-      const faccaoParceriaBruto = valor * 0.25;
-      const faccaoParceriaLiquido = faccaoParceriaBruto - retencao;
-
-      // SEM PARCERIA
-      const clienteSemParceria = valor * 0.70;
-      const faccaoSemParceriaBruto = valor * 0.30;
-      const faccaoSemParceriaLiquido = faccaoSemParceriaBruto - retencao;
+      const comParceria = valor * 0.25; // facção ganha 25%
+      const semParceria = valor * 0.30; // facção ganha 30%
+      const clienteParceria = valor - comParceria;
+      const clienteSemParceria = valor - semParceria;
 
       resultado.innerHTML = `
-        <p><strong>Alvejantes necessários:</strong> ${alvejantes.toFixed(0)}</p>
-        <p><strong>Retenção da máquina (4%):</strong> R$ ${retencao.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
+        <p><strong>Valor total:</strong> R$ ${valor.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
         <hr>
-        <p><strong>Com parceria (cliente 75%):</strong></p>
+        <p><strong>Com parceria (25% para a facção):</strong></p>
+        <p>• Facção recebe: R$ ${comParceria.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
         <p>• Cliente recebe: R$ ${clienteParceria.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
-        <p>• Facção (bruto): R$ ${faccaoParceriaBruto.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
-        <p>• Facção (líquido, após retenção): R$ ${faccaoParceriaLiquido.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
         <hr>
-        <p><strong>Sem parceria (cliente 70%):</strong></p>
+        <p><strong>Sem parceria (30% para a facção):</strong></p>
+        <p>• Facção recebe: R$ ${semParceria.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
         <p>• Cliente recebe: R$ ${clienteSemParceria.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
-        <p>• Facção (bruto): R$ ${faccaoSemParceriaBruto.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
-        <p>• Facção (líquido, após retenção): R$ ${faccaoSemParceriaLiquido.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
       `;
     }
   </script>
